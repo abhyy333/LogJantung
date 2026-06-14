@@ -1,0 +1,82 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "Profile",
+      "description": "User cardiovascular health profile and login statistics",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the user"
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender: Laki-laki or Perempuan"
+        },
+        "weight": {
+          "type": "number",
+          "description": "Weight in kilograms"
+        },
+        "height": {
+          "type": "number",
+          "description": "Height in centimeters"
+        },
+        "bmi": {
+          "type": "number",
+          "description": "Calculated Body Mass Index"
+        },
+        "bmiCategory": {
+          "type": "string",
+          "description": "BMI category: Kurang, Normal, Gemuk, Obesitas"
+        },
+        "totalLogins": {
+          "type": "integer",
+          "description": "Total logins count"
+        },
+        "lastLogin": {
+          "type": "string",
+          "description": "Timestamp of the user's last login session"
+        }
+      },
+      "required": ["name", "gender", "weight", "height", "bmi", "bmiCategory", "totalLogins"]
+    },
+    "BloodPressure": {
+      "title": "Blood Pressure Log",
+      "description": "Systolic and diastolic blood pressure logs containing medical classifications",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The authentication UID of the patient"
+        },
+        "systolic": {
+          "type": "number",
+          "description": "Systolic blood pressure (mmHg)"
+        },
+        "diastolic": {
+          "type": "number",
+          "description": "Diastolic blood pressure (mmHg)"
+        },
+        "category": {
+          "type": "string",
+          "description": "Health classification category"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of record entry"
+        }
+      },
+      "required": ["userId", "systolic", "diastolic", "category"]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": "Profile",
+      "description": "Each user profile is stored keyed by their unique Auth UID"
+    },
+    "/bloodPressures/{bpId}": {
+      "schema": "BloodPressure",
+      "description": "Blood pressure measurements cataloged with user ownership references"
+    }
+  }
+}

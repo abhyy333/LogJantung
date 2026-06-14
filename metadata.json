@@ -1,0 +1,6 @@
+{
+  "name": "LogJantung",
+  "description": "Aplikasi pemantauan mandiri pasien jantung koroner dengan Tracker Tensi, Edukasi, Kuis Pengetahuan, dan Statistik Profil.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
