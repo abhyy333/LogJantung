@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { BookOpen, ShieldAlert, CheckCircle, CookingPot, Info, ClipboardList, Video, ExternalLink } from 'lucide-react';
+import { BookOpen, ShieldAlert, CheckCircle, CookingPot, Info, ClipboardList, Video, ExternalLink, Activity, Apple, HeartPulse, Droplet, Flame, Sparkles, HeartHandshake, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { PJK_CONTENT, CHOLESTEROL_CONTENT, COOKING_TIPS, DIET_GUIDE_DATA } from '../data/education';
 
 interface EducationProps {
@@ -67,15 +67,46 @@ export default function Education({ initialSubTab = 'pjk' }: EducationProps) {
         {activeSubTab === 'pjk' && (
           <div id="panel-pjk" className="space-y-6 animate-fade-in">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-slate-805">{PJK_CONTENT.title}</h3>
-              <p className="text-xs sm:text-sm text-emerald-700 font-bold">{PJK_CONTENT.subtitle}</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900">{PJK_CONTENT.title}</h3>
+              <p className="text-xs sm:text-sm text-emerald-700 font-bold uppercase tracking-wider">{PJK_CONTENT.subtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
-              {PJK_CONTENT.content.map((paragraph, index) => (
-                <div key={index} className="p-5 bg-slate-50 rounded-xl leading-relaxed text-sm text-slate-700 border border-slate-200 font-medium">
-                  {paragraph}
+
+            {/* Content Points Grid & High Contrast Reminder Box */}
+            <div className="space-y-6 mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {PJK_CONTENT.content.map((paragraph, index) => {
+                  // Choose dynamic icon highlight for each paragraph
+                  const paragraphIcons = [Activity, AlertTriangle, ShieldCheck, HeartHandshake];
+                  const ParaIcon = paragraphIcons[index] || BookOpen;
+
+                  return (
+                    <div
+                      key={index}
+                      className="p-5 bg-slate-50 hover:bg-slate-100/50 transition-colors rounded-2xl leading-relaxed text-xs sm:text-sm text-slate-700 border border-slate-150 flex flex-col justify-between space-y-3 shadow-sm"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="p-1.5 rounded-lg bg-emerald-100/60 text-emerald-800">
+                            <ParaIcon className="h-4 w-4" />
+                          </span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Poin {index + 1}</span>
+                        </div>
+                        <p className="font-semibold leading-relaxed text-slate-800">{paragraph}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="p-5 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-emerald-900 leading-relaxed font-semibold shadow-sm">
+                <div className="flex items-start space-x-3">
+                  <HeartPulse className="h-5 w-5 text-emerald-600 flex-shrink-0 mt-0.5 animate-pulse" />
+                  <div>
+                    <h5 className="font-extrabold text-emerald-950 text-sm mb-0.5">Pantauan Mandiri</h5>
+                    <p className="text-emerald-800 text-xs font-semibold">Aliran darah berkualitas dipengaruhi dari kedisplinan pencatatan tensi harian di rumah.</p>
+                  </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         )}
@@ -84,21 +115,83 @@ export default function Education({ initialSubTab = 'pjk' }: EducationProps) {
         {activeSubTab === 'lemak' && (
           <div id="panel-lemak" className="space-y-6">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-slate-805">{CHOLESTEROL_CONTENT.title}</h3>
-              <p className="text-xs sm:text-sm text-emerald-700 font-bold">{CHOLESTEROL_CONTENT.subtitle}</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900">{CHOLESTEROL_CONTENT.title}</h3>
+              <p className="text-xs sm:text-sm text-emerald-700 font-bold uppercase tracking-wider">{CHOLESTEROL_CONTENT.subtitle}</p>
             </div>
+
+            {/* Minimal Food Lipid Banner */}
+            <div className="p-5 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-100 mt-4 space-y-1.5 shadow-sm">
+              <span className="inline-block text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-md font-bold uppercase tracking-wider font-sans">
+                Informasi Lipid Sehat
+              </span>
+              <h4 className="text-md sm:text-base font-serif font-extrabold text-slate-900">
+                Lemak Nabati Pelindung Jantung
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+                Alpukat, salmon, kacang kenari, dan minyak zaitun kaya akan Omega-3 & lemak tak jenuh yang aktif mendorong naik rasio kolesterol HDL.
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-              {CHOLESTEROL_CONTENT.sections.map((section, idx) => (
-                <div key={idx} className="bg-slate-50 p-5 rounded-xl border border-slate-250 flex flex-col justify-between shadow-sm">
-                  <div className="space-y-3">
-                    <h4 className="font-bold text-sm text-slate-850">{section.name}</h4>
-                    <p className="text-xs text-slate-650 leading-relaxed font-semibold">{section.description}</p>
+              {CHOLESTEROL_CONTENT.sections.map((section, idx) => {
+                // Style sections dynamically based on typical lipid characteristics
+                const isLDL = section.name.includes("LDL");
+                const isHDL = section.name.includes("HDL");
+                
+                const cardStyle = isLDL
+                  ? "bg-rose-50/40 border-rose-150 shadow-rose-100/50 ring-rose-500/5"
+                  : isHDL
+                    ? "bg-emerald-50/40 border-emerald-150 shadow-emerald-100/50 ring-emerald-500/5"
+                    : "bg-slate-50/60 border-slate-150 shadow-slate-100/50";
+
+                const textBadgeStyle = isLDL
+                  ? "bg-rose-100 text-rose-800"
+                  : isHDL
+                    ? "bg-emerald-100 text-emerald-800"
+                    : "bg-slate-200 text-slate-800";
+
+                const targetBadgeStyle = isLDL
+                  ? "bg-rose-50 border-rose-200 text-rose-900"
+                  : isHDL
+                    ? "bg-emerald-50 border-emerald-250 text-emerald-900"
+                    : "bg-slate-100 border-slate-250 text-slate-800";
+
+                const SectionIcon = isLDL
+                  ? AlertTriangle
+                  : isHDL
+                    ? ShieldCheck
+                    : Activity;
+
+                return (
+                  <div
+                    key={idx}
+                    className={`p-5 rounded-2xl border flex flex-col justify-between shadow-sm transition-all hover:shadow-md ${cardStyle}`}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <span className={`p-1.5 rounded-lg ${textBadgeStyle}`}>
+                          <SectionIcon className="h-4.5 w-4.5" />
+                        </span>
+                        <h4 className="font-extrabold text-xs sm:text-sm text-slate-900">
+                          {isLDL ? "Kolesterol LDL" : isHDL ? "Kolesterol HDL" : "Trigliserida & Total"}
+                        </h4>
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <h5 className="font-extrabold text-slate-850 text-xs sm:text-sm">{section.name}</h5>
+                        <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+                          {section.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className={`mt-5 p-3 rounded-xl border text-xs font-bold ${targetBadgeStyle}`}>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-400 mb-1 font-sans">Kadar Nilai Target:</div>
+                      {section.target}
+                    </div>
                   </div>
-                  <div className="mt-5 pt-3 border-t border-slate-200 text-xs font-bold text-emerald-700">
-                    {section.target}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -107,33 +200,50 @@ export default function Education({ initialSubTab = 'pjk' }: EducationProps) {
         {activeSubTab === 'diet' && (
           <div id="panel-diet" className="space-y-6">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-slate-805">Anjuran vs Larangan Makanan</h3>
-              <p className="text-xs sm:text-sm text-emerald-700 font-bold">Panduan diet logis menjaga kestabilan kolesterol dan tensi darah</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900">Anjuran vs Larangan Makanan</h3>
+              <p className="text-xs sm:text-sm text-emerald-700 font-bold uppercase tracking-wider">Panduan diet medis menjaga kestabilan kolesterol dan tensi darah</p>
+            </div>
+
+            {/* Premium Culinary Diet Plate Banner */}
+            <div className="p-5 bg-gradient-to-r from-sky-50 to-indigo-50 rounded-2xl border border-sky-100 mt-4 space-y-1.5 shadow-sm">
+              <span className="inline-block text-[9px] bg-sky-600 text-white px-2 py-0.5 rounded-md font-bold uppercase tracking-wider font-sans">
+                Dietary Approaches (DASH)
+              </span>
+              <h4 className="text-md sm:text-base font-serif font-extrabold text-slate-900">
+                Pola Hidup Berbasis Serat & Rendah Natrium
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+                Kombinasi nutrisi kalium dari sayur segar & serat larut beta-glukan dari gandum terbukti menahan penyerapan lipid berlebih secara klinis.
+              </p>
             </div>
 
             {/* Split Grid table layout */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-4">
               {/* Anjuran Table */}
               <div className="space-y-4">
-                <h4 className="font-bold text-sm text-emerald-800 flex items-center space-x-1.5 uppercase tracking-wider bg-emerald-50 border border-emerald-150 p-3 rounded-xl col-span-full">
-                  <CheckCircle className="h-5 w-5 text-emerald-600" />
-                  <span>Daftar Makanan diAnjurkan</span>
+                <h4 className="font-extrabold text-xs sm:text-sm text-emerald-800 flex items-center space-x-2 bg-emerald-50 border border-emerald-150 p-3.5 rounded-2xl">
+                  <CheckCircle className="h-5 w-5 text-emerald-600 flex-shrink-0" />
+                  <span>Daftar Makanan diAnjurkan (Konsumsi Rutin)</span>
                 </h4>
-                <div className="overflow-x-auto border border-emerald-150 rounded-xl shadow-sm bg-white">
+                <div className="overflow-x-auto border border-emerald-150 rounded-2xl shadow-sm bg-white">
                   <table className="min-w-full divide-y divide-emerald-100">
                     <thead className="bg-emerald-50/50">
-                      <tr className="text-left text-xs font-bold text-emerald-800">
-                        <th className="px-4 py-2.5">Nama</th>
-                        <th className="px-4 py-2.5">Tipe</th>
-                        <th className="px-4 py-2.5">Manfaat</th>
+                      <tr className="text-left text-[10px] font-bold text-emerald-850 uppercase tracking-wider">
+                        <th className="px-4 py-3">Nama Bahan</th>
+                        <th className="px-4 py-3">Kategori</th>
+                        <th className="px-4 py-3">Manfaat Medis</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-emerald-100 text-xs text-slate-700">
                       {DIET_GUIDE_DATA.filter(item => item.status === 'Anjuran').map((item, idx) => (
                         <tr key={idx} className="hover:bg-emerald-50/20 transition-colors">
-                          <td className="px-4 py-3 font-bold text-slate-900">{item.name}</td>
-                          <td className="px-4 py-3 font-mono text-[10px] text-emerald-700 font-bold">{item.category}</td>
-                          <td className="px-4 py-3 leading-relaxed font-semibold">{item.description}</td>
+                          <td className="px-4 py-3.5 font-extrabold text-slate-900">{item.name}</td>
+                          <td className="px-4 py-3.5 whitespace-nowrap">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-100">
+                              {item.category}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3.5 leading-relaxed font-semibold text-slate-600">{item.description}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -143,25 +253,29 @@ export default function Education({ initialSubTab = 'pjk' }: EducationProps) {
 
               {/* Larangan Table */}
               <div className="space-y-4">
-                <h4 className="font-bold text-sm text-red-800 flex items-center space-x-1.5 uppercase tracking-wider bg-red-50 border border-red-150 p-3 rounded-xl col-span-full">
-                  <ShieldAlert className="h-5 w-5 text-red-600" />
-                  <span>Daftar Makanan diLarang / Batasi</span>
+                <h4 className="font-extrabold text-xs sm:text-sm text-rose-800 flex items-center space-x-2 bg-rose-50 border border-rose-150 p-3.5 rounded-2xl">
+                  <ShieldAlert className="h-5 w-5 text-rose-605 flex-shrink-0" />
+                  <span>Daftar Makanan diLarang / Batasi Ketat</span>
                 </h4>
-                <div className="overflow-x-auto border border-red-150 rounded-xl shadow-sm bg-white">
-                  <table className="min-w-full divide-y divide-red-100">
-                    <thead className="bg-red-50/50">
-                      <tr className="text-left text-xs font-bold text-red-800">
-                        <th className="px-4 py-2.5">Nama</th>
-                        <th className="px-4 py-2.5">Tipe</th>
-                        <th className="px-4 py-2.5">Alasan Medis</th>
+                <div className="overflow-x-auto border border-rose-150 rounded-2xl shadow-sm bg-white">
+                  <table className="min-w-full divide-y divide-rose-100">
+                    <thead className="bg-rose-50/50">
+                      <tr className="text-left text-[10px] font-bold text-rose-850 uppercase tracking-wider">
+                        <th className="px-4 py-3">Nama Bahan</th>
+                        <th className="px-4 py-3">Kategori</th>
+                        <th className="px-4 py-3">Alasan Medis</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-red-100 text-xs text-slate-705 font-medium">
+                    <tbody className="divide-y divide-rose-100 text-xs text-slate-700">
                       {DIET_GUIDE_DATA.filter(item => item.status === 'Larangan').map((item, idx) => (
-                        <tr key={idx} className="hover:bg-red-50/20 transition-colors">
-                          <td className="px-4 py-3 font-bold text-slate-900">{item.name}</td>
-                          <td className="px-4 py-3 font-mono text-[10px] text-red-700 font-bold">{item.category}</td>
-                          <td className="px-4 py-3 leading-relaxed font-semibold">{item.description}</td>
+                        <tr key={idx} className="hover:bg-rose-50/20 transition-colors">
+                          <td className="px-4 py-3.5 font-extrabold text-slate-900">{item.name}</td>
+                          <td className="px-4 py-3.5 whitespace-nowrap">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold bg-rose-50 text-rose-800 border border-rose-100">
+                              {item.category}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3.5 leading-relaxed font-semibold text-slate-655">{item.description}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -176,21 +290,44 @@ export default function Education({ initialSubTab = 'pjk' }: EducationProps) {
         {activeSubTab === 'memasak' && (
           <div id="panel-cooking" className="space-y-6">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-slate-805">{COOKING_TIPS.title}</h3>
-              <p className="text-xs sm:text-sm text-emerald-700 font-bold">{COOKING_TIPS.subtitle}</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900">{COOKING_TIPS.title}</h3>
+              <p className="text-xs sm:text-sm text-emerald-700 font-bold uppercase tracking-wider">{COOKING_TIPS.subtitle}</p>
             </div>
+
+            {/* Culinary Sunny Aesthetics Banner */}
+            <div className="p-5 bg-gradient-to-r from-amber-50/80 to-orange-50/80 rounded-2xl border border-amber-100 mt-4 space-y-1.5 shadow-sm">
+              <span className="inline-block text-[9px] bg-amber-600 text-white px-2 py-0.5 rounded-md font-bold uppercase tracking-wider font-sans">
+                Teknik Restorasi Rasa
+              </span>
+              <h4 className="text-md sm:text-base font-serif font-extrabold text-slate-900">
+                Memasak Lezat Tanpa Sumbatan Lemak
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+                Memaksimalkan bumbu aromatik nabati seperti jahe, sereh, bawang segar, ketumbar, dan lada untuk mengurangi ketergantungan garam halus.
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-              {COOKING_TIPS.tips.map((tip, idx) => (
-                <div key={idx} className="bg-slate-50 p-5 rounded-xl border border-slate-200 flex items-start space-x-3 shadow-sm">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs">
-                    {idx + 1}
-                  </span>
-                  <div className="space-y-1">
-                    <h4 className="font-extrabold text-sm text-slate-900">{tip.title}</h4>
-                    <p className="text-xs text-slate-650 leading-relaxed font-semibold">{tip.desc}</p>
+              {COOKING_TIPS.tips.map((tip, idx) => {
+                // Map a neat relevant icon to each specific cooking tip
+                const tipIcons = [Droplet, Flame, Sparkles, CookingPot];
+                const TipIcon = tipIcons[idx] || Info;
+
+                return (
+                  <div key={idx} className="bg-slate-50/60 hover:bg-slate-50 transition-all p-5 rounded-2xl border border-slate-200 flex items-start space-x-4 shadow-sm hover:shadow-md">
+                    <span className="flex-shrink-0 inline-flex items-center justify-center h-10 w-10 rounded-xl bg-emerald-100/70 text-emerald-800">
+                      <TipIcon className="h-5 w-5" />
+                    </span>
+                    <div className="space-y-1.5">
+                      <h4 className="font-extrabold text-sm text-slate-900 flex items-center space-x-1.5">
+                        <span className="text-emerald-700 text-xs font-bold font-mono">Pola #{idx + 1}:</span>
+                        <span>{tip.title}</span>
+                      </h4>
+                      <p className="text-xs text-slate-600 leading-relaxed font-semibold">{tip.desc}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
